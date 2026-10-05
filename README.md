@@ -27,14 +27,18 @@ You start these yourself, by typing `/` and the name.
 
 Claude starts these on its own when your request matches.
 
-- [agent-readiness-audit](./docs/operations/agent-readiness-audit.md): a pass or fail report on whether an agent, skill or plugin is ready for someone other than its builder
+- [agent-readiness-audit](./skills/operations/agent-readiness-audit/README.md): a pass or fail report on whether an agent, skill or plugin is ready for someone other than its builder
 
 ## How this repo is run
 
 - [CLAUDE.md](./CLAUDE.md): the rules for every change
 - [CHANGELOG.md](./CHANGELOG.md): what changed, version by version
 - [Decisions](./.agents/adr/): why the repo works this way
-- [Out of scope](./.out-of-scope/README.md): what this repo will not do
+
+## What this repo is not
+
+- **Skills tied to one company's tools or data.** Shared skills stay generic. Fork the repo and adapt your copy.
+- **Engineering skills** (coding, testing, code review). Better collections exist, for example `mattpocock/skills`.
 
 ## License
 

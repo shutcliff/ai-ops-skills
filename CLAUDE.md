@@ -8,9 +8,7 @@ Skills live in bucket folders under `skills/`:
 
 - `operations/`: running operations with AI (auditing agents and skills, sizing projects, designing AI pipelines)
 - `productivity/`: everyday work tools (decks, Notion, session reviews)
-- `misc/`: kept, rarely used, not promoted
 - `in-progress/`: being cleaned up, kept local only. Git ignores everything in it except its README, so nothing in it is published or shipped. Agents waiting here sit in `in-progress/_agents/`.
-- `deprecated/`: no longer used, kept so old links still work
 
 `operations/` and `productivity/` are the **promoted** buckets. The plugin ships exactly the promoted set.
 
@@ -23,9 +21,9 @@ Skills live in bucket folders under `skills/`:
     - the repo checks (`scripts/check-repo.sh`), which lint every promoted skill
     - generic content: no names of people, employers or clients, no personal paths. "The user", never the owner's name.
 3. **Trigger on purpose.** Every `SKILL.md` is either user-invoked (`disable-model-invocation: true`) or model-invoked, and its docs page says which. The README groups skills under **User-invoked** and **Model-invoked**.
-4. **Docs page.** Every promoted skill has `docs/<bucket>/<skill-name>.md`, written with `.agents/writing-docs.md`. In-progress, misc and deprecated items get none.
+4. **README.** Every promoted skill has a `README.md` in its folder, for people: what it does, who runs it, what it produces, how to install and check it, and a symptom table. It travels with every install.
 5. **Changelog and version.** Every promotion, rename, removal or behaviour change adds a line to `CHANGELOG.md` and bumps `version` in `plugin.json` (new skill or behaviour: minor; fix: patch).
-6. **Decisions.** A choice that shapes the repo gets a numbered record in `.agents/adr/`. A request we say no to gets a short note in `.out-of-scope/`.
+6. **Decisions.** A choice that shapes the repo gets a numbered record in `.agents/adr/`. A request we say no to gets one line under "What this repo is not" in `README.md`.
 7. **Plain English, no em dashes,** in every file. Rewrite the sentence, never swap the character blindly.
 8. **Never in this repo:** names of employers, colleagues or clients, company data, credentials, personal paths. The scrub check on every pull request enforces it.
 

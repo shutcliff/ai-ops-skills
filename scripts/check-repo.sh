@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Repo checks, run on every pull request and before any push.
 # 1. No em dashes. 2. The promoted set agrees across plugin.json and README.md.
-# 3. Skill lint on every promoted skill (frontmatter, size, links, docs).
+# 3. Skill lint on every promoted skill (frontmatter, size, links, README).
 # 4. Scrub check: no employer, colleague or client names.
 #    Names come from $SCRUB_NAMES (one per line, a GitHub secret in CI)
 #    or from "${XDG_CONFIG_HOME:-$HOME/.config}/ai-ops-skills/scrub-names.txt" on the owner's computer.
@@ -101,9 +101,8 @@ for skill in sys.argv[1:]:
     readme = os.path.join("skills", bucket, "README.md")
     if not os.path.isfile(readme) or name not in open(readme, encoding="utf-8").read():
         fail(f"{name} missing from {readme}")
-    doc = os.path.join("docs", bucket, name + ".md")
-    if not os.path.isfile(doc):
-        fail(f"{name}: docs page {doc} missing")
+    if not os.path.isfile(os.path.join(os.path.dirname(skill), "README.md")):
+        fail(f"{name}: README.md missing in the skill folder")
 
 sys.exit(1 if failed else 0)
 PY
