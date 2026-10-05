@@ -1,0 +1,22 @@
+{
+  "name": "ai-ops-skills",
+  "owner": {
+    "name": "Silvana Vasquez Sutcliffe",
+    "url": "https://github.com/shutcliff"
+  },
+  "description": "Silvana Vasquez Sutcliffe's Claude skills to run business operations with AI, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "ai-ops-skills",
+      "source": "./",
+      "description": "Practical Claude skills that help business people bring AI into their operations.",
+      "category": "productivity",
+      "keywords": [
+        "business-teams",
+        "ai-operations",
+        "no-code",
+        "productivity"
+      ]
+    }
+  ]
+}

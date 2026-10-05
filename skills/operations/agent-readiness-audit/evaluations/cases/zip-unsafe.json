@@ -1,0 +1,11 @@
+{
+ "case": "zip-unsafe",
+ "pack": "fixtures/craft-good",
+ "pack_extra": {
+  "../evil.txt": "planted"
+ },
+ "gate": "pr",
+ "mode": "before-run",
+ "why": "The same zip with a member whose path climbs out with '..'. The member must be refused, never written, and reported as a leak risk.",
+ "expected_exit": 1
+}

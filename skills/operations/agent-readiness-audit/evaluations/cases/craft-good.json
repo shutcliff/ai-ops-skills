@@ -1,0 +1,8 @@
+{
+ "case": "craft-good",
+ "fixture": "fixtures/craft-good",
+ "gate": "pr",
+ "mode": "before-run",
+ "expected_exit": 0,
+ "why": "A small model-invoked skill whose description is folded over two lines, with steps that end on a done line and one reference file named with a condition. The folded description must be read in full, and the craft checks must leave it for a reader (manual), not fail it."
+}

@@ -1,0 +1,8 @@
+{
+ "case": "good-agent",
+ "fixture": "fixtures/good-agent",
+ "gate": "pr",
+ "mode": "before-run",
+ "why": "A small agent that meets every criterion the pull-request gate blocks on. Run with no run evidence, which is what CI has: the criterion needing a run must report NO EVIDENCE YET without failing the gate, and the script must exit 0. Guards against the checks becoming so strict that nothing passes.",
+ "expected_exit": 0
+}

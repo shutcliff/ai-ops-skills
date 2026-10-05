@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/build_digest.py *)",
+      "Bash(python3 scripts/check_ready.py *)",
+      "Read"
+    ],
+    "deny": [
+      "Edit",
+      "Write",
+      "Bash(git *)"
+    ]
+  }
+}

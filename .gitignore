@@ -1,0 +1,7 @@
+.DS_Store
+*.local.*
+__pycache__/
+
+# in-progress skills stay local; only the folder's README is published
+skills/in-progress/*
+!skills/in-progress/README.md

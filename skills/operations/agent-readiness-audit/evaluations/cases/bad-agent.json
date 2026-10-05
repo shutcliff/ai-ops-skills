@@ -1,0 +1,3 @@
+{"case": "bad-agent", "fixture": "fixtures/bad-agent", "gate": "handover",
+ "why": "Planted defects: dead ../docs/workshop/ reference, blanket Bash/Write/Edit, credential in a permission rule and in a script, personal /home path, unattended claude -p run, no done block, no never or stop-and-ask list, vague words, a supersedes line, uppercase skill name, description without when-to-use. Each must be caught.",
+ "expected_exit": 1}

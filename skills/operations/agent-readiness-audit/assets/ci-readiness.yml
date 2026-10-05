@@ -1,0 +1,56 @@
+# GitHub Actions job: run the readiness script on every pull request.
+#
+# Copy to .github/workflows/readiness.yml in the agent repository.
+#
+# The job checks out the public repository that holds the audit skill into
+# tooling/, then runs its script on this repository. No token is needed.
+# The job fails when a criterion that blocks the pull-request gate fails, and
+# uploads the plain-English report as an artifact either way.
+#
+# The pull-request gate runs in before-run mode: CI has no run data, so the
+# criteria that need a real run report "no evidence yet" instead of failing.
+# The handover and release gates are run by a person on the machine that runs
+# the agent, where the run log and the probe result exist.
+
+name: Agent readiness
+
+on:
+  pull_request:
+    paths:
+      - "CLAUDE.md"
+      - ".claude/**"
+      - "knowledge/**"
+      - "prompts/**"
+      - "scripts/**"
+      - "README.md"
+      - "SETUP.md"
+
+env:
+  # The skill's folder inside the tooling checkout.
+  AUDIT_SKILL: skills/operations/agent-readiness-audit
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: shutcliff/ai-ops-skills
+          path: tooling
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run readiness audit (pull request gate)
+        run: |
+          python3 "tooling/${AUDIT_SKILL}/scripts/audit.py" . --gate pr --mode before-run --md readiness-report.md
+
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: readiness-report
+          path: readiness-report.md

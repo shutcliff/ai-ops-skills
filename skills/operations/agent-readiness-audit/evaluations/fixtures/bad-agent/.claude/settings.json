@@ -1,0 +1,1 @@
+{"permissions": {"allow": ["Bash", "Write", "Edit", "Bash(python3 -c ' *')", "Bash(curl -H 'x-api-key: *' https://metabase.example.com/*)", "Bash(python3 scripts/fetch_cards.py --date 2026-01-01)", "Bash(python3 scripts/fetch_cards.py --date 2026-01-02)", "Bash(python3 scripts/fetch_cards.py --date 2026-01-03)"]}}

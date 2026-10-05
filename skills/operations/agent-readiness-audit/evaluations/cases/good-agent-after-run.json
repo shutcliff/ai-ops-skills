@@ -1,0 +1,8 @@
+{
+ "case": "good-agent-after-run",
+ "fixture": "fixtures/good-agent",
+ "gate": "release",
+ "state_dir": "fixtures/state/good-agent",
+ "why": "The same agent judged at the release gate with run evidence present: a run entry and a probe result in the operator's state directory. Every criterion must reach a verdict, the run trace must pass on both halves, and the script must exit 0. Guards the after-run path, which the before-run case never reaches.",
+ "expected_exit": 0
+}

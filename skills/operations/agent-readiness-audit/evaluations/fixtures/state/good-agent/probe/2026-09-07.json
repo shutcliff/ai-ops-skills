@@ -1,0 +1,8 @@
+{
+  "ran": "2026-09-07",
+  "checks": [
+    {"name": "ticket-system token is present", "ok": true, "detail": "JIRA_TOKEN is set"},
+    {"name": "customer list is readable", "ok": true, "detail": "customers.json"},
+    {"name": "ticket system answers a read-only call", "ok": true, "detail": "200, 14 rows for the week"}
+  ]
+}

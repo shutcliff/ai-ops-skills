@@ -1,0 +1,8 @@
+{
+ "case": "user-invoked",
+ "fixture": "fixtures/user-invoked",
+ "gate": "pr",
+ "mode": "before-run",
+ "expected_exit": 1,
+ "why": "A user-invoked skill (disable-model-invocation: true) whose description is a one-line summary for people, with no 'Use when'. Only a person starts it, so it needs no trigger wording: 'Files follow Claude's format' must PASS. An earlier version of the script failed it for missing 'Use when'."
+}

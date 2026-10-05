@@ -1,0 +1,7 @@
+{
+ "case": "not-an-agent",
+ "fixture": "fixtures/not-an-agent",
+ "gate": "handover",
+ "why": "A folder with none of CLAUDE.md, .claude/, or a SKILL.md at its root. The script must say NOT AN AGENT REPO and exit 2 instead of inventing findings.",
+ "expected_exit": 2
+}

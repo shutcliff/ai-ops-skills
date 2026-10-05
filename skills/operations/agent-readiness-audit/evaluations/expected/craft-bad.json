@@ -1,0 +1,29 @@
+{
+ "_mode": "before-run",
+ "purpose-clear": "FAIL",
+ "done-defined": "FAIL",
+ "who-decides": "FAIL",
+ "never-do-list": "FAIL",
+ "bad-input-rule": "FAIL",
+ "links-work": "PASS",
+ "no-vague-steps": "PASS",
+ "files-agree": "MANUAL",
+ "failure-plan": "N/A",
+ "writes-protected": "N/A",
+ "another-laptop": "PASS",
+ "proof-cases": "FAIL",
+ "more-than-one-person": "FAIL",
+ "claude-format": "PASS",
+ "trigger-on-purpose": "WARN",
+ "main-file-lean": "FAIL",
+ "steps-say-done": "FAIL",
+ "nothing-twice": "FAIL",
+ "behaviour-switch": "N/A",
+ "replay-safely": "N/A",
+ "run-trace": "N/A",
+ "_must_mention": {
+  "main-file-lean": [
+   "unused.md"
+  ]
+ }
+}

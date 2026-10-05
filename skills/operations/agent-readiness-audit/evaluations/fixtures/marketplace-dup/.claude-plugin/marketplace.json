@@ -1,0 +1,8 @@
+{
+  "name": "team-market",
+  "owner": {"name": "Operations team"},
+  "plugins": [
+    {"name": "alpha", "source": "./plugins/alpha", "description": "Reporting helpers."},
+    {"name": "beta", "source": "./plugins/beta", "description": "Meeting helpers."}
+  ]
+}

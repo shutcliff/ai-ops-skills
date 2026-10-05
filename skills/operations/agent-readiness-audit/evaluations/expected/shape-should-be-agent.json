@@ -1,0 +1,29 @@
+{
+ "_mode": "before-run",
+ "purpose-clear": "FAIL",
+ "done-defined": "FAIL",
+ "who-decides": "FAIL",
+ "never-do-list": "FAIL",
+ "bad-input-rule": "FAIL",
+ "links-work": "PASS",
+ "no-vague-steps": "PASS",
+ "files-agree": "MANUAL",
+ "failure-plan": "FAIL",
+ "writes-protected": "FAIL",
+ "another-laptop": "PASS",
+ "proof-cases": "FAIL",
+ "more-than-one-person": "FAIL",
+ "claude-format": "PASS",
+ "trigger-on-purpose": "MANUAL",
+ "main-file-lean": "MANUAL",
+ "steps-say-done": "MANUAL",
+ "nothing-twice": "MANUAL",
+ "behaviour-switch": "PASS",
+ "replay-safely": "FAIL",
+ "run-trace": "NO EVIDENCE YET",
+ "_must_mention": {
+  "behaviour-switch": [
+   "1 scheduled skill"
+  ]
+ }
+}

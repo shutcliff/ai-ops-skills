@@ -1,0 +1,8 @@
+{
+ "case": "plugin-guards",
+ "fixture": "fixtures/plugin-guards",
+ "gate": "pr",
+ "mode": "before-run",
+ "why": "Guards the loosened plugin checks: a missing file under the plugin root, an unknown /plugin:command and a hard-coded install path must still be dead links, a real write to the sheet must still fail, and a check script no document mentions must still be reported.",
+ "expected_exit": 1
+}

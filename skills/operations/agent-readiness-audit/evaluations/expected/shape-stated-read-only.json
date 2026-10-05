@@ -1,0 +1,30 @@
+{
+ "_mode": "before-run",
+ "purpose-clear": "PASS",
+ "done-defined": "PASS",
+ "who-decides": "PASS",
+ "never-do-list": "PASS",
+ "bad-input-rule": "PASS",
+ "links-work": "PASS",
+ "no-vague-steps": "PASS",
+ "files-agree": "MANUAL",
+ "failure-plan": "WARN",
+ "writes-protected": "WARN",
+ "another-laptop": "PASS",
+ "proof-cases": "FAIL",
+ "more-than-one-person": "WARN",
+ "claude-format": "PASS",
+ "trigger-on-purpose": "MANUAL",
+ "main-file-lean": "MANUAL",
+ "steps-say-done": "MANUAL",
+ "nothing-twice": "MANUAL",
+ "behaviour-switch": "N/A",
+ "replay-safely": "FAIL",
+ "run-trace": "NO EVIDENCE YET",
+ "_must_mention": {
+  "writes-protected": [
+   "stated read only",
+   "SKILL.md:31"
+  ]
+ }
+}

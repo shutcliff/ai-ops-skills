@@ -1,0 +1,21 @@
+{
+  "name": "ai-ops-skills",
+  "version": "0.2.0",
+  "description": "Claude skills to run business operations with AI: practical tools that help business people bring AI into their day-to-day operations. Plain English, no coding needed.",
+  "author": {
+    "name": "Silvana Vasquez Sutcliffe",
+    "url": "https://github.com/shutcliff"
+  },
+  "repository": "https://github.com/shutcliff/ai-ops-skills",
+  "license": "MIT",
+  "keywords": [
+    "business-teams",
+    "ai-operations",
+    "no-code",
+    "productivity",
+    "skills"
+  ],
+  "skills": [
+    "./skills/operations/agent-readiness-audit"
+  ]
+}

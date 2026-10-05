@@ -1,0 +1,9 @@
+{
+ "case": "shape-stated-read-only",
+ "fixture": "fixtures/shape-stated-read-only",
+ "gate": "pr",
+ "mode": "before-run",
+ "args": ["--touches", "read"],
+ "why": "The person answered that the skill only reads, but one step writes to a sheet. The answer is a claim: the write check must quote the line that contradicts it.",
+ "expected_exit": 1
+}

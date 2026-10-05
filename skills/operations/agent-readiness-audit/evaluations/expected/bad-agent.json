@@ -1,0 +1,29 @@
+{
+ "_mode": "before-run",
+ "purpose-clear": "FAIL",
+ "done-defined": "FAIL",
+ "who-decides": "FAIL",
+ "never-do-list": "FAIL",
+ "bad-input-rule": "FAIL",
+ "links-work": "FAIL",
+ "no-vague-steps": "WARN",
+ "files-agree": "WARN",
+ "failure-plan": "FAIL",
+ "writes-protected": "FAIL",
+ "another-laptop": "FAIL",
+ "proof-cases": "FAIL",
+ "more-than-one-person": "FAIL",
+ "claude-format": "FAIL",
+ "trigger-on-purpose": "MANUAL",
+ "main-file-lean": "MANUAL",
+ "steps-say-done": "MANUAL",
+ "nothing-twice": "MANUAL",
+ "behaviour-switch": "FAIL",
+ "replay-safely": "FAIL",
+ "run-trace": "NO EVIDENCE YET",
+ "_must_mention": {
+  "another-laptop": [
+   "scripts/audit.py"
+  ]
+ }
+}

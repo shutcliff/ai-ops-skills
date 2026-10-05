@@ -1,0 +1,7 @@
+{
+ "case": "craft-bad",
+ "fixture": "fixtures/craft-bad",
+ "gate": "pr",
+ "expected_exit": 1,
+ "why": "A user-invoked skill whose description still carries a trigger list, a reference file nothing points at, one sentence repeated in two files, and a dated history list. The format check must still pass (a user-invoked skill needs no trigger wording), and the four craft checks must catch the rest."
+}

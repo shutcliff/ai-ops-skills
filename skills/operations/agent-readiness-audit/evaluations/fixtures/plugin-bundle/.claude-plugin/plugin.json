@@ -1,0 +1,6 @@
+{
+  "name": "team-tools",
+  "version": "0.1.0",
+  "description": "Two small helpers for a support team: a weekly report and a notes digest.",
+  "author": {"name": "Support operations team"}
+}

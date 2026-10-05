@@ -1,0 +1,37 @@
+{
+ "_mode": "before-run",
+ "purpose-clear": "PASS",
+ "done-defined": "FAIL",
+ "who-decides": "FAIL",
+ "never-do-list": "FAIL",
+ "bad-input-rule": "FAIL",
+ "links-work": "FAIL",
+ "no-vague-steps": "PASS",
+ "files-agree": "MANUAL",
+ "failure-plan": "N/A",
+ "writes-protected": "FAIL",
+ "another-laptop": "PASS",
+ "proof-cases": "FAIL",
+ "more-than-one-person": "FAIL",
+ "claude-format": "PASS",
+ "trigger-on-purpose": "MANUAL",
+ "main-file-lean": "MANUAL",
+ "steps-say-done": "MANUAL",
+ "nothing-twice": "MANUAL",
+ "behaviour-switch": "N/A",
+ "replay-safely": "FAIL",
+ "run-trace": "NO EVIDENCE YET",
+ "_must_mention": {
+  "links-work": [
+   "scripts/missing.py",
+   "/guard-tools:verify",
+   "install location"
+  ],
+  "writes-protected": [
+   "Write the totals to the sheet"
+  ],
+  "more-than-one-person": [
+   "no document tells a new operator to run it"
+  ]
+ }
+}
