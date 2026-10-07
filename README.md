@@ -8,10 +8,43 @@ By Silvana Vasquez Sutcliffe.
 
 ## Install
 
-See [install steps](./.agents/install-block.md). Two ways:
+**You need:** Claude Code with a terminal (check with `claude --version`); the readiness skills also need Python 3.9 or newer (check with `python3 --version`).
 
-1. **As a plugin** (recommended): updates reach you automatically.
-2. **Copied into your project**: the files are yours to change.
+### As a plugin (recommended)
+
+In Claude Code, run these two commands:
+
+```
+/plugin marketplace add shutcliff/ai-ops-skills
+/plugin install ai-ops-skills@ai-ops-skills
+```
+
+To get new versions, run `/plugin marketplace update ai-ops-skills`, or turn on auto-update for this marketplace in `/plugin`.
+
+### Copied into your project
+
+1. Download the repo (green "Code" button on GitHub, then "Download ZIP").
+2. Copy the skill folder you want from `skills/<bucket>/` into your project's `.claude/skills` folder.
+3. Restart Claude Code. The copy is yours: it will not update on its own.
+
+### Check it worked
+
+Type `/` in Claude Code. The skills appear in the list.
+
+## First thing to try
+
+Open Claude Code in a folder that holds a skill or an agent and ask: "is this skill ready to share?". A good result: a report in the `docs/readiness` folder, a verdict, a short fix plan in plain words, and the question "Apply the plan now?". Each skill's README says more.
+
+## When something looks wrong
+
+| What you see | What it means | What to do |
+|---|---|---|
+| The skills do not appear after `/` | The plugin is not installed, or Claude Code was not restarted | Run the two install commands again, then restart Claude Code |
+| "Python not found" or a script error | Python 3.9 or newer is missing | Install it, then check with `python3 --version` |
+| An old version keeps running | Auto-update is off | Run `/plugin marketplace update ai-ops-skills` |
+| A skill misbehaves | Its own symptom table covers it | Open that skill's README, linked below |
+
+**Who to ask:** open an issue on this repository.
 
 ## Skills
 
