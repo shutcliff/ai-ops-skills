@@ -1123,7 +1123,7 @@ def check_teammate_can_install(root, inv, rep):
         for i, line in enumerate(t.splitlines(), 1):
             if i in guard or re.match(r"^\s*[-*]\s*20\d\d-\d\d-\d\d", line):
                 continue  # a dated history entry or a Never-do line is not a prerequisite
-            if re.search(r"\b(access to|credentials|permission to|editor access|api key|account on|licence|license|prerequisite|requires|python 3|you need)\b", line, re.I) and re.match(r"^\s*(\d+\.|[-*])\s", line):
+            if re.search(r"\b(access to|credentials|permission to|editor access|api key|account on|licence|license|prerequisite|requires|python 3|you need)\b", line, re.I) and (re.match(r"^\s*(\d+\.|[-*])\s", line) or re.match(r"^\s*\**(you need|prerequisites?|requirements?)\b", line, re.I)):
                 prereq_lines.append((rel(root, p), i, line.strip()))
     unmet = [f"{f}:{i}  {l[:100]}" for f, i, l in prereq_lines
              if not re.search(r"(`|ask |request |from (the |your )?[a-z ]*(admin|owner|lead|team|it|infra|support)|granted by|\(?see\b|contact)", l, re.I)]
