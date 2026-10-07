@@ -91,7 +91,7 @@ Rules:
   2. Changes for branches the steps do not handle, and for legwork.
   3. One-line changes (a contradiction, a trigger phrase, a definition).
   4. Setup and documents for people (onboarding, readme, symptom table).
-  At most five behaviour steps; a failure that fits none goes in Details. Each behaviour step ends on its "After this" sentence, which the person approves and the fixer tests. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
+  At most five behaviour steps; a failure that fits none goes in Details. A value only the owner knows (where it runs, a folder, a schedule, a role, which of two rules wins) is never written as a fact: the step asks it as a question, with the recommended answer and why. Each behaviour step ends on its "After this" sentence, which the person approves and the fixer tests. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
 - **Evidence.** One or two `file:line` per row, the rest in Details; a probe-settled criterion cites the probe line and date.
 - **Gate names.** The filename and the verdict line use the gate name (share, merge). At merge the pre-mortem has an owner and a date.
 - **Plain English.** No em dashes (in a quote, use a colon). A technical term gets its meaning in parentheses once. An adjective such as "fragile" needs a quoted line or is cut. One sentence of finding, one of fix naming the file and what to add or delete.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Promoted agent-readiness-fix to `operations/` (model-invoked): applies an audit's fix plan. Structure changes go in directly; each behaviour change is shown with one "After this" sentence, written after a yes, then tested by a separate agent on fake data in a scratch copy. At the end it tests again any change a later change touched.
+- agent-readiness-audit ends a NOT READY run with "Apply the plan now?"; a yes starts the fixer. A value only the owner knows is asked, never stated as a fact, and every category is checked against the skill's central definition.
+- Repo checks: the skill lint now looks for the README in the skill's own folder.
+
 ## 0.3.0
 
 - agent-readiness-audit:

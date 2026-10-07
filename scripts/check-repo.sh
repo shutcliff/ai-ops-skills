@@ -101,7 +101,7 @@ for skill in sys.argv[1:]:
     readme = os.path.join("skills", bucket, "README.md")
     if not os.path.isfile(readme) or name not in open(readme, encoding="utf-8").read():
         fail(f"{name} missing from {readme}")
-    if not os.path.isfile(os.path.join(os.path.dirname(skill), "README.md")):
+    if not os.path.isfile(os.path.join(skill, "README.md")):
         fail(f"{name}: README.md missing in the skill folder")
 
 sys.exit(1 if failed else 0)

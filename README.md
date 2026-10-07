@@ -28,6 +28,7 @@ You start these yourself, by typing `/` and the name.
 Claude starts these on its own when your request matches.
 
 - [agent-readiness-audit](./skills/operations/agent-readiness-audit/README.md): a pass or fail report on whether an agent, skill or plugin is ready for someone other than its builder
+- [agent-readiness-fix](./skills/operations/agent-readiness-fix/README.md): applies an audit's fix plan; structure is tidied directly, each behaviour change is approved by you and then tested. Starts when you say yes to "Apply the plan now?"
 
 ## How this repo is run
 
