@@ -3,6 +3,8 @@
 # 1. No em dashes. 2. The promoted set agrees across plugin.json and README.md.
 # 3. Skill lint on every promoted skill (frontmatter, size, links, README).
 # 4. Scrub check: no employer, colleague or client names.
+# 5. Skill self-checks, the same ones CI runs: layers, proof cases, and the
+#    readiness audit at the merge gate, for every promoted skill that ships them.
 #    Names come from $SCRUB_NAMES (one per line, a GitHub secret in CI)
 #    or from "${XDG_CONFIG_HOME:-$HOME/.config}/ai-ops-skills/scrub-names.txt" on the owner's computer.
 set -euo pipefail
@@ -118,4 +120,12 @@ if [ -s "$list" ]; then
   if [ -n "$hits" ]; then echo "FAIL scrub names found in:"; echo "$hits"; fail=1; else echo "PASS scrub check"; fi
 else echo "FAIL no scrub list available, so the scrub check could not run"; fail=1; fi
 rm -f "$list"
+
+for s in $skills; do
+  if [ -f "$s/scripts/check_layers.py" ] && [ -f "$s/scripts/run_evals.py" ] && [ -f "$s/scripts/audit.py" ]; then
+    out=$( (cd "$s" && python3 scripts/check_layers.py && python3 scripts/run_evals.py) 2>&1 && python3 "$s/scripts/audit.py" "$s" --gate merge --ci 2>&1 ) \
+      && echo "PASS self-checks $(basename "$s")" \
+      || { echo "FAIL self-checks $(basename "$s"):"; echo "$out" | grep -E "FAIL|drift|blocks this gate|Result" | head -20; fail=1; }
+  fi
+done
 exit $fail
