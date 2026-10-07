@@ -1,5 +1,7 @@
 # agent-readiness-audit
 
+Here an **agent** is any skill, plugin, command or subagent that someone other than its builder will run.
+
 **What it does:** checks whether a Claude Code agent, skill, command or subagent is built well enough for someone other than its builder to run it, against plain-English criteria with a pass or fail each.
 
 **Who runs it:** the builder before sharing an agent with a teammate to test, and the reviewer before it is merged into a repository anyone can install from.
