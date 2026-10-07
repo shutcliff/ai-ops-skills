@@ -1,7 +1,8 @@
 {
  "case": "scheduled-skill",
  "fixture": "fixtures/scheduled-skill",
- "gate": "pr",
+ "gate": "merge",
+ "ci": true,
  "mode": "before-run",
  "why": "A skill that runs every morning as a scheduled task and posts to a chat channel, with no account named and no way to pause it. It is automatic behaviour, so the switch criterion must fail.",
  "expected_exit": 1

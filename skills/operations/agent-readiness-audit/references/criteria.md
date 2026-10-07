@@ -7,14 +7,14 @@ The one text of the standard, for every Claude Code agent, skill, command or sub
 - Verdicts, evidence and terms
 - What the audit reads, and what it leaves alone
 - Before a run and after a run
-- The three gates
+- The two gates
 - The blocks, in order: Purpose, Claude's role, Steps, Safety, Proof, Format, Skill craft, Operability
 
 **What ready means.** Someone who did not build the agent can run it from its documentation, knows what it never does and when it stops to ask, can tell a good run, can switch off anything automatic, and can read what a run did. Ready does not mean fully specified: over-specifying makes instruction-following worse.
 
 ## Verdicts, evidence and terms
 
-**Verdicts.** PASS, FAIL, does not apply (with a one-line reason), or NO EVIDENCE YET. No partial marks: a half-met criterion is a FAIL with a note on what would make it pass. NO EVIDENCE YET is only for a criterion that needs a run and has nothing to read; its fix is the run to perform. It blocks the handover and release gates, and does not block the pull-request gate.
+**Verdicts.** PASS, FAIL, does not apply (with a one-line reason), or NO EVIDENCE YET. No partial marks: a half-met criterion is a FAIL with a note on what would make it pass. NO EVIDENCE YET is only for a criterion that needs a run and has nothing to read; its fix is the run to perform. It blocks the merge gate, and does not block the share gate.
 
 **Evidence.** A file and a line, or a probe check with its date, or the sentence "no file states this". Every verdict, finding and fix carries evidence.
 
@@ -44,17 +44,20 @@ Some facts exist only at run time (the access a service account really has, whet
 - **Before-run mode.** Nothing has left a trace on this machine. Criteria that need run evidence report NO EVIDENCE YET instead of failing.
 - **After-run mode.** The operator's state directory holds a run log, a probe result, or both. Every criterion gets a verdict.
 
-**The gate rule.** The handover and release gates require after-run mode, because a file-only reading cannot tell whether a real run behaves. An auditor on a different machine than the operator cannot reach it: the verdict is NOT READY, with the reason "no run evidence on this machine" and the state directory the files point at. When nothing writes to a real system and nothing runs by itself, no run evidence is needed: every criterion that needs a run does not apply. The pull-request gate needs no run: CI has no run data.
+**The gate rule.** The share gate needs no run: the teammate's test is the run. The merge gate requires after-run mode, because a file-only reading cannot tell whether a real run behaves; the evidence is the teammate's test run, on the machine that ran it. An auditor on a different machine cannot reach it: the verdict is NOT READY, with the reason "no run evidence on this machine" and the state directory the files point at. When nothing writes to a real system and nothing runs by itself, no run evidence is needed: every criterion that needs a run does not apply. In CI (`--ci`), which has no run data, the script judges every merge criterion from the files and the reviewer confirms the run evidence.
 
 **A fact the audit cannot verify resolves one of three ways:** the standard already requires it to be visible in the files, so it is a FAIL on the criterion that needs it; only a live system can settle it, so it becomes a named check in the probe, with the criterion it feeds and the role who adds it, and until the probe carries that check the criterion fails with that one fix; or no criterion depends on it and it is dropped. Reports have no open-questions section.
 
-## The three gates
+## The two gates
 
-- **1, handover:** the builder hands the agent to the team that will run it. The receiving operator audits, not the builder, on the machine that will run the agent, after one real run there. Blocks: every criterion whose **Blocks at.** line says Handover, plus run evidence by the gate rule.
-- **2, pull request:** any change to instruction files, prompts, or settings. The reviewer audits, with the script in CI. Blocks: gate 1 except run evidence, plus every criterion that blocks at Pull request. Each failure accepted for a pull request is listed with its reason, and a prompt change that adds a rule adds a proof case.
-- **3, release:** the agent goes to more than one team, or runs unattended. The team that owns the standard audits with the owning team. Blocks: gate 2, plus every criterion that blocks at Release, plus run evidence by the gate rule.
+The gates follow the agent's life, in order. Neither depends on where the repository lives: the same audit applies to a personal repository, a company one, or anyone else's.
 
-A gate is passed when every criterion that blocks at it, or at an earlier gate, is PASS or does not apply. An audit where the script did not run is NOT READY at every gate.
+- **1, share:** the builder gives the agent to a teammate to test. Question: is it good enough that a test means something? The files must be complete, well structured and safe, and a teammate must be able to install it alone. Blocks: every criterion whose **Blocks at.** line says Share. No run evidence: the test is the run.
+- **2, merge:** the agent goes into a repository (a plugin, a skills folder), so anyone who installs it can run it on any computer. Question: can a stranger run it safely? Blocks: gate 1, plus every criterion that blocks at Merge, plus run evidence by the gate rule. Each failure accepted for a merge is listed with its reason, and a prompt change that adds a rule adds a proof case.
+
+A gate is passed when every criterion that blocks at it, or at the earlier gate, is PASS or does not apply. A report at the share gate still lists every failure that blocks merge, so nothing waits unseen. An audit where the script did not run is NOT READY at both gates.
+
+A repository may add its own rules on top (a readme per skill, a manifest entry, a changelog line); they live in that repository's CLAUDE.md, not in this standard.
 
 ---
 
@@ -66,7 +69,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Any of the three missing, or CLAUDE.md, the readme and the main skill's description disagree on them (a person runs it, while a scheduled script no instruction file mentions runs it nightly).
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ### "Done" for one run is defined
 
@@ -74,7 +77,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** No such block, or "ready to close" or "success" without a definition.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ---
 
@@ -86,7 +89,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Claude computes, compares, or classifies something the instructions call deterministic, or the code named as the owner is a check that cannot fail and guards no write.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ### Never-do list and stop-and-ask list exist
 
@@ -94,7 +97,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Any of the above missing, a stop-and-ask list covering one case while the run has several human-judgment moments, or an instruction to minimize questions where money or customer data is written.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ---
 
@@ -106,7 +109,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Only the happy path: "required" with no rule for absent, or a fetch that can return nothing with no rule for what Claude says.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 ### Every link and path works
 
@@ -114,7 +117,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Any file, folder, or slash command a reader would follow and not find, including a path that hard-codes one install location (`~/.claude/skills/<name>/...`) when the skill can be installed elsewhere.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ### No vague steps
 
@@ -122,7 +125,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** More than ten flagged lines, or a flagged line that governs a write, a threshold, or a classification without a rule beside it. Deciding what kind of thing an input is ("looks like a date") is a classification.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 ### The files agree with each other
 
@@ -130,7 +133,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** Two live instructions that pull against each other (a field one file requires and another file's schema rejects), the highest-value find, since Claude receives both and picks one silently. Across skills, read side by side in a bundle or marketplace: two whose names and descriptions cover near cases, two copies of one skill name (both can trigger), or one that depends on a skill or file shipped in another plugin.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 ---
 
@@ -142,7 +145,7 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** A system with no failure line or only "down" covered, code that handles it (a retry, a failed list) while the instructions never tell Claude what to say, or a connector with no "not connected" line. In after-run mode, the probe result says which systems answered.
 
-**Blocks at.** Pull request.
+**Blocks at.** Merge.
 
 ### Writes are protected
 
@@ -150,15 +153,15 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 **Fail.** A write with neither. An unattended run with write permissions and no deny list. A check whose two inputs trace to one extraction event (a number read twice off the same screenshot). A check that cannot fail in front of a write. An instruction to skip a confirmation fails here only when no code check stands in front of that write; otherwise it belongs under "Never-do list and stop-and-ask list exist". A Never-do line, or a draft the person sends themselves, is not a write.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ### Works on another laptop, leaks nothing
 
-**Pass.** No credential-shaped strings in tracked files, the environment file ignored by git, no home-directory paths in instructions, scripts, or config, and machine-specific values read from an environment or config file. `.claude/settings.json` lists specific commands rather than wholesale Bash, Write, or Edit, holds no header or key patterns, is not a log of one-off dated commands, carries a deny list when anything runs unattended, and has no rule combining an interpreter flag (`-c`, `-e`, `--eval`, `-m`) with a wildcard or an open suffix. No keys in `.mcp.json`. The docs name the surfaces it supports (Claude Code, the desktop and web apps), and anything that needs a terminal, Python or a local file says so.
+**Pass.** No credential-shaped strings in tracked files, the environment file ignored by git, no home-directory paths in instructions, scripts, or config, and machine-specific values read from an environment or config file. `.claude/settings.json` lists specific commands rather than wholesale Bash, Write, or Edit, holds no header or key patterns, is not a log of one-off dated commands, carries a deny list when anything runs unattended, and has no rule combining an interpreter flag (`-c`, `-e`, `--eval`, `-m`) with a wildcard or an open suffix. No keys in `.mcp.json`.
 
 **Fail.** Any of the above, even if nothing bad has happened yet. `Bash(python3 -c ' *')` is `Bash(*)` in a form that looks specific. A shared archive with a member whose path leaves its folder.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ---
 
@@ -166,25 +169,35 @@ A gate is passed when every criterion that blocks at it, or at an earlier gate, 
 
 ### Proof cases exist and run
 
-**Pass.** An `evaluations/` (or `evals/`) folder with at least 3 proof cases per skill or product the agent ships, run automatically (CI or a pre-merge command in the pull-request template). A dry-run flag for every step that writes. At the release gate, each case has been run 3 times and passed all 3; the report counts cases that passed all three, not once.
+**Pass.** An `evaluations/` (or `evals/`) folder with at least 3 proof cases per skill or product the agent ships, run automatically (CI or a pre-merge command in the pull-request template). A dry-run flag for every step that writes. Before merge, each case has been run 3 times and passed all 3; the report counts cases that passed all three, not once.
 
-**Fail.** No cases, cases for one product out of many, cases nothing runs, or expected notes in prose the runner skips.
+A model-invoked skill also has one case where a realistic prompt starts it and one where a near prompt must not.
 
-**Blocks at.** Release. (Unit tests for the code are welcome and count for nothing here; this criterion is about Claude's output.)
+**Fail.** No cases, cases for one product out of many, cases nothing runs, expected notes in prose the runner skips, or a model-invoked skill with no case that checks it starts.
+
+**Blocks at.** Merge. (Unit tests for the code are welcome and count for nothing here; this criterion is about Claude's output.)
+
+### A teammate can install it
+
+**Pass.** An onboarding (the readme, an ONBOARDING.md, or for a lone skill a setup block in SKILL.md) with four parts: how to get it; what you need first, each prerequisite naming the command that satisfies it or the role who grants it; the first thing to type; what a good result looks like. A configured value (a folder, an ID, a placeholder such as `<memory dir>`) counts as a prerequisite. In a bundle, each skill gets one line.
+
+**Fail.** Any part missing, or a prerequisite that says what you need and not how to get it. At the share gate the teammate installs from the onboarding alone with the builder silent; the report records the result.
+
+**Blocks at.** Share.
 
 ### Built for more than one person to run
 
 **Pass.** Four things, readable in the repository.
-1. An onboarding (the readme or an ONBOARDING.md) with five parts: how to get it; what you need first and who grants it; the first thing to type; what a good result looks like; who to ask. In a bundle, each skill gets one line. Every prerequisite names the command that satisfies it or the role who grants it.
-2. A readiness check the documents tell a new operator to run first: a script, a `check` command, or a first skill step that confirms connectors and access (for a target with no outside system, a check that the folder is complete counts).
-3. Roles named everywhere a person is meant, never the people who wrote the instructions.
-4. A symptom table for whoever is on call: what you see, what it means, what to do.
+1. A readiness check the documents tell a new operator to run first: a script, a `check` command, or a first skill step that confirms connectors, access and configured values (for a target with no outside system, a check that the folder and its configured values are in place counts).
+2. Roles named everywhere a person is meant, never the people who wrote the instructions.
+3. A symptom table for whoever is on call: what you see, what it means, what to do.
+4. The docs name the surfaces it supports (Claude Code, the desktop and web apps) and who to ask; anything that needs a terminal, Python or a local file says so.
 
-At handover the receiving person installs from the onboarding alone with the builder silent, and tries once with one connector disconnected; the report records both results.
+Before merge, someone who did not build it tries once with one connector disconnected; the report records the result.
 
-**Fail.** Any of the four missing, including one onboarding part, a prerequisite that says what you need and not how to get it, or a person named where a role belongs (compare `git log` author names with the instruction text). Without a readiness check, a newcomer meets what is missing as an error mid-run.
+**Fail.** Any of the four missing, or a person named where a role belongs (compare `git log` author names with the instruction text). Without a readiness check, a newcomer meets what is missing as an error mid-run.
 
-**Blocks at.** Handover.
+**Blocks at.** Merge.
 
 ---
 
@@ -192,11 +205,11 @@ At handover the receiving person installs from the onboarding alone with the bui
 
 ### Files follow Claude's format
 
-**Pass.** Every `SKILL.md` has a name (lowercase letters, digits, single hyphens, max 64 characters, matching its folder) and a description (1 to 1024 characters, never in the first or second person: no "I" or "you") that says what the skill does; a model-invoked skill's description also says when to use it. SKILL.md body under 500 lines. A reference file over 100 lines starts with a table of contents. Every command has a description, plus an argument hint when it takes arguments. Every subagent has a name, a description, and a tools list. CLAUDE.md under 200 lines.
+**Pass.** Every `SKILL.md` has a name (lowercase letters, digits, single hyphens, max 64 characters, matching its folder) and a description (1 to 1024 characters, never in the first or second person: no "I" or "you") that says what the skill does; a model-invoked skill's description also says when to use it. SKILL.md body under 500 lines. A reference file over 100 lines starts with a table of contents. Every command has a description, plus an argument hint when it takes arguments. Every subagent has a name, a description, and a tools list. CLAUDE.md under 200 lines. A SKILL.md body opens on its one H1 title, and every section (purpose, done, never do, stop and ask, steps) sits under it.
 
-**Fail.** A field missing or a file over its limit (a command over 500 lines, a CLAUDE.md that embeds a schema and a ten-step procedure).
+**Fail.** A field missing or a file over its limit (a command over 500 lines, a CLAUDE.md that embeds a schema and a ten-step procedure). Text above the H1 title, or a second H1: two documents stitched into one file, so Claude reads two sets of rules.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 Sources: agentskills.io/specification; platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices; code.claude.com/docs/en/skills, /memory and /sub-agents.
 
@@ -210,6 +223,8 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 - A **leading word** is a short, well-known word repeated so that it anchors one behaviour (for example "evidence").
 - A **key behaviour** is one a step's "Done when" line depends on.
 - A **no-op** is a sentence whose deletion would not change what Claude does.
+- A **branch** is one way the skill gets used (a different argument, request or situation). The description, the argument hint and the examples show them.
+- **Legwork** is a step Claude tends to rush toward the goal (asking before planning, checking every category before saying "nothing new").
 
 ### Started the right way: by a person or by Claude
 
@@ -223,31 +238,35 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 
 **Fail.** Model-invoked when only a person ever starts it, so its description costs context every session. User-invoked while another file tells Claude to run it, which can never work. A description that names one branch twice, or misses a branch. Always-on wording ("every response", "always use", "for all requests"): a skill loads only when Claude picks it, so standing behaviour belongs in CLAUDE.md or the organisation's instructions. A wrong shape, with the right shape as the fix.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 ### The main file holds only what every use needs
 
-**Pass.** Steps, and the reference every branch needs, stay in SKILL.md (or CLAUDE.md). Reference only some branches need sits in its own file, one level deep, behind a pointer line that gives the condition for reading it ("read X before step N"). Each concept's definition, rules and caveats sit together under one heading.
+**Pass.** The report lists the skill's branches. Steps, and the reference every branch needs, stay in SKILL.md (or CLAUDE.md). Reference only some branches need sits in its own file, one level deep, behind a pointer line that gives the condition for reading it ("read X before step N"). Each concept's definition, rules and caveats sit together under one heading. Every branch has a step that handles it.
 
-**Fail.** A reference file the main file never names, so Claude never reaches it. A pointer with no condition. A reference file that points to another reference file. Material only one branch needs written inline in the main file. Install text, history or a file listing in the file Claude loads.
+With no reference files, the report says so and states that everything in SKILL.md serves every use.
 
-**Blocks at.** Pull request.
+**Fail.** A branch the steps never handle (an example shows a use no step covers). One concept written in two places (a category list and a file list that map one to one). Reference a step needs that is defined nowhere (the format of the entry the skill writes). A reference file the main file never names, so Claude never reaches it. A pointer with no condition. A reference file that points to another reference file. Material only one branch needs written inline in the main file. Install text, history or a file listing in the file Claude loads.
+
+**Blocks at.** Share.
 
 ### Each step says when it is done
 
-**Pass.** Every step ends on a "Done when" line Claude can check, demanding where thoroughness matters ("every criterion judged", not "review the files"). Key behaviours carry a leading word. Steering states the target behaviour. Prohibitions appear only as hard guardrails in the one short Never-do list, each paired with what to do instead.
+**Pass.** A skill that does a job has its steps as headings (`## Step N: <verb> <object>`), each written as an instruction to Claude (read, compare, propose, write) that names its input, and each ending on a "Done when" line Claude can check, demanding where thoroughness matters ("every criterion judged", not "review the files"). A reference-only skill (rules or patterns Claude consults) has no steps and passes on its structure alone. Key behaviours carry a leading word, defined once (the report names the word, or proposes one when the skill's central word is never defined). Legwork has a forced check in its step ("list a candidate or 'none' for every category") or, when it is large, its own skill. Steering states the target behaviour. Prohibitions appear only as hard guardrails in the one short Never-do list, each paired with what to do instead.
 
-**Fail.** A step with no checkable end, which invites Claude to stop early. A key behaviour steered only by a "never" or "do not" line outside the Never-do list, which puts the unwanted behaviour into Claude's attention.
+**Fail.** A step with no checkable end, which invites Claude to stop early. Legwork with no forced check. A procedure written as a numbered list under a heading such as "What it does": the items describe ("Reviews the session") instead of instruct, and no item can carry a "Done when" line. A step that depends on an input no earlier step reads (a "no duplicates" rule with no step that reads the existing file). A key behaviour steered only by a "never" or "do not" line outside the Never-do list, which puts the unwanted behaviour into Claude's attention.
 
-**Blocks at.** Pull request.
+**Blocks at.** Share.
 
 ### Nothing said twice, nothing said for nothing
 
 **Pass.** One meaning lives in one place across SKILL.md, its references, CLAUDE.md, commands and subagents. No dated history, superseded notes, stale names, or time-sensitive facts (a date, price or version that will go stale). No no-ops. No copy of the environment (a config file, a directory listing, a script's help text) unless looking it up is expensive.
 
-**Fail.** Any of the above, named by file and line. When it is unclear whether a sentence is a no-op, the finding says so and the fix is for the skill's owner to test the skill without it; the auditor does not run it.
+The report gives each skill's size (words and lines) and names each no-op by the deletion test: the line, and what Claude would do differently without it ("nothing").
 
-**Blocks at.** Pull request.
+**Fail.** Any of the above, named by file and line. When it is unclear whether a sentence is a no-op, the finding says so and its removal is a behaviour fix for the owner to approve; the auditor does not run it.
+
+**Blocks at.** Share.
 
 ---
 
@@ -259,7 +278,7 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 
 **Fail.** Any of the above missing for a script that starts Claude headless, a hook, a scheduled skill, or anything naming cron, systemd, launchd, or a login or unlock trigger: an undeclared first-contact behaviour, a behaviour that stops only when the script is edited, a switch no document names, an off state that still writes or marks the day done, or a ceiling missing or with no stated behaviour (logging the duration afterwards is not a ceiling). Does not apply when nothing runs by itself.
 
-**Blocks at.** Handover.
+**Blocks at.** Share.
 
 ### A run can be replayed safely
 
@@ -267,7 +286,7 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 
 **Fail.** Any of the above missing, including an inline write that bypasses the write helper and its dry run, or a state file that stops a second scheduled run but not a person running the skill by hand. Does not apply when nothing writes to a real system.
 
-**Blocks at.** Pull request.
+**Blocks at.** Merge.
 
 ### A run leaves a trace a person reads
 
@@ -275,4 +294,4 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 
 **Fail.** The only record is a raw transcript, an empty result and a broken query look the same in it, the repository does not document the state directory path, or the newest entry on the machine is older than the schedule allows. In before-run mode the machine half is NO EVIDENCE YET, while a failing repository half is still a FAIL. Does not apply when nothing writes to a real system and nothing runs by itself.
 
-**Blocks at.** Pull request. Run evidence for the local half is required at handover and release.
+**Blocks at.** Merge. Run evidence for the local half is required at merge.

@@ -1,7 +1,7 @@
 {
  "case": "zip-target",
  "pack": "fixtures/craft-good",
- "gate": "pr",
+ "gate": "share",
  "mode": "before-run",
  "why": "The good craft skill packed as a .zip, the way people share skills. The audit must unpack it and give the same verdicts as the folder.",
  "expected_exit": 0

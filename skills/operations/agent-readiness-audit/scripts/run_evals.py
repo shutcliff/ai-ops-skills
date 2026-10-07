@@ -84,6 +84,8 @@ def main():
             cmd += ["--mode", case["mode"]]
         if case.get("state_dir"):
             cmd += ["--state-dir", str(EVALS / case["state_dir"])]
+        if case.get("ci"):
+            cmd.append("--ci")
         cmd += [str(a) for a in case.get("args", [])]
         proc = subprocess.run(cmd, capture_output=True, text=True)
         if scratch:
@@ -131,7 +133,7 @@ def main():
                 if actual.get(slug) != exp:
                     ok = False
                     detail.append(f"{slug}: expected {exp}, got {actual.get(slug)}")
-        print(f"{'PASS' if ok else 'FAIL'}  {case['case']}  (gate {case['gate']})")
+        print(f"{'PASS' if ok else 'FAIL'}  {case['case']}  (gate {case['gate']}{', ci' if case.get('ci') else ''})")
         for d in detail:
             print(f"      {d}")
         case_failures += 0 if ok else 1

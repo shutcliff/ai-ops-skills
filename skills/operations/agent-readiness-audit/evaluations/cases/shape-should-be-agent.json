@@ -1,7 +1,8 @@
 {
  "case": "shape-should-be-agent",
  "fixture": "fixtures/shape-should-be-agent",
- "gate": "pr",
+ "gate": "merge",
+ "ci": true,
  "mode": "before-run",
  "why": "A skill that runs every morning unattended, keeps a state file between runs and writes to a sheet, and names its account and how to pause it. The switch criterion must pass, and the shape signs alone must never raise a failure.",
  "expected_exit": 1

@@ -1,7 +1,8 @@
 {
  "case": "always-on-skill",
  "fixture": "fixtures/always-on-skill",
- "gate": "pr",
+ "gate": "merge",
+ "ci": true,
  "mode": "before-run",
  "why": "A skill whose description asks to be used for every response. A skill loads only when Claude picks it, so the way it is started must fail.",
  "expected_exit": 1

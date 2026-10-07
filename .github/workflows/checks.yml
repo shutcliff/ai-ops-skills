@@ -23,13 +23,13 @@ jobs:
         run: bash scripts/check-repo.sh
       - name: Shell scripts parse
         run: find . -name '*.sh' -not -path './.git/*' -print0 | xargs -0 -n1 bash -n
-      - name: Skill self-checks (layers, evals, readiness audit at handover)
+      - name: Skill self-checks (layers, evals, readiness audit at merge)
         run: |
           set -euo pipefail
           for s in $(python3 -c "import json;print('\n'.join(json.load(open('.claude-plugin/plugin.json'))['skills']))"); do
             if [ -f "$s/scripts/check_layers.py" ] && [ -f "$s/scripts/run_evals.py" ] && [ -f "$s/scripts/audit.py" ]; then
               echo "== $s"
               (cd "$s" && python3 scripts/check_layers.py && python3 scripts/run_evals.py)
-              python3 "$s/scripts/audit.py" "$s" --gate handover
+              python3 "$s/scripts/audit.py" "$s" --gate merge --ci
             fi
           done

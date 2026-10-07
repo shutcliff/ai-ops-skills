@@ -1,0 +1,8 @@
+{
+ "case": "legacy-layout",
+ "fixture": "fixtures/legacy-layout",
+ "gate": "share",
+ "mode": "before-run",
+ "expected_exit": 1,
+ "why": "An old command file with a new header block bolted on above its title: the rules sit before the H1, the steps are a numbered list that describes instead of instructs, a user-invoked description still says when to use it ('Use at the end'), the stop-and-ask list has two lines, and there are no reference files. Every one of these must surface at the share gate."
+}
