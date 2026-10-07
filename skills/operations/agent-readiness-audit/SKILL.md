@@ -14,7 +14,7 @@ description: Audits a Claude Code agent, skill, plugin or subagent for readiness
 - `references/report-template.md`: the report shape and the fix-plan rule, read at Step 4.
 - `references/process-agent-patterns.md`: read only when Step 4 judges an Operability criterion the script did not mark N/A.
 
-**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, the fix plan (up to five steps, each naming the criteria it closes, and the count left after it), and the report path. The person checks that the first cited file:line shows the problem named.
+**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, the fix plan in plain words (the structure step as one line, then each behaviour step with its "After this" sentence, and the count left after it), and the report path. The "For the fixer" section stays in the report, out of the chat. The person checks that the first cited file:line shows the problem named.
 
 ## Never do
 
@@ -75,7 +75,7 @@ Scope follows the tiers in `references/criteria.md`. Hunt for what the script ca
 1. **Instructions that disagree.** The same field, path, threshold or rule stated two ways. Quote both lines.
 2. **Claims the code does not support.** When a document says a check "runs before any write", open the function; a check that cannot fail fails the criterion that relied on it.
 3. **Decisions left to Claude that belong to code or a person.** Money, dates, thresholds, colour codes, cell mappings, "does this look right".
-4. **Steps that describe instead of instruct.** For each skill that does a job: are the steps headings, each an instruction that names its input? Does every rule have a step that makes it possible (a "no duplicates" rule needs a step that reads the existing file first)? Is there anything above the H1 title, or a second H1?
+4. **Anatomy of each skill.** List its branches from the description, the argument hint and the examples, and check each has a step. Sort its text into steps and reference, and place each piece of reference by the branches that use it. Are the steps headings, each an instruction that names its input? Does every rule have a step that makes it possible (a "no duplicates" rule needs a step that reads the existing file first)? Is there anything above the H1 title, or a second H1? Find its leading word, its legwork, and its no-ops by the deletion test.
 5. **Where a first-time operator gets stuck.** Read the setup document with none of the builder's context: each step assuming a credential, machine, tool or word the reader lacks is a finding under "Built for more than one person to run".
 6. **Across skills.** Overlaps with other skills in the repository or marketplace, and dependencies on a skill or file shipped elsewhere.
 
@@ -87,9 +87,9 @@ Walk `references/criteria.md` top to bottom. Give every criterion exactly one ve
 
 Then write the one-line pre-mortem: the likeliest reason this agent misbehaves in someone else's hands next month, taken from a finding already listed.
 
-Then build the fix plan by the "Fix plan" rule in `references/report-template.md`: group the failures by the change that fixes them, order the changes, and count what is left.
+Then label every change structure or behaviour, and build the fix plan and the "For the fixer" section by the rules in `references/report-template.md`.
 
-**Done when:** every criterion has exactly one verdict with evidence, the pre-mortem line is written, and every failure at the gate sits in one fix-plan step or in Details.
+**Done when:** every criterion has exactly one verdict with evidence, the pre-mortem line is written, every failure at the gate sits in one fix-plan step or in Details, and every behaviour step has its "After this" sentence and its test.
 
 ## Step 5: write the report and tell the person
 

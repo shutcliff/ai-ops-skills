@@ -7,4 +7,5 @@
 - A failure under "Started the right way: by a person or by Claude": user-invoked with a trigger list in its description (`SKILL.md:3`).
 - A failure under "Nothing said twice, nothing said for nothing" citing the History section.
 - A failure under "Each step says when it is done": no step has a "Done when" line.
-- A fix plan whose steps each name the criteria they close, grouped by change (one step fixes the trigger list, one rewrites the steps), ending with the count of failures left.
+- A fix plan whose first step is "Tidy the structure" as one line, then behaviour steps each with an "After this" sentence, ending with the count of failures left.
+- A "For the fixer" section listing the branches, the size, the structure changes and, per behaviour change, a test; none of it in the chat.

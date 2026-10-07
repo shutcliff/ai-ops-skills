@@ -1380,6 +1380,22 @@ def check_trigger_on_purpose(root, inv, rep):
         rep.add("trigger-on-purpose", "MANUAL", "Whether each skill should be started by a person or by Claude is a reading judgment.", CRAFT_FIX)
 
 
+def anatomy_hints(root, p) -> list:
+    """Evidence for the reader's anatomy of one skill: its size, and where its
+    branches show (the argument hint and the example invocations). The reader
+    lists the branches; the script only points at where to look."""
+    fm, body = frontmatter(read(p))
+    offset = len(read(p).splitlines()) - len(body.splitlines())
+    name = (fm or {}).get("name") or p.parent.name
+    out = [f"{rel(root, p)}: size {len(body.split())} words, {len(body.splitlines())} lines"]
+    if (fm or {}).get("argument-hint"):
+        out.append(f"{rel(root, p)}: argument hint '{fm['argument-hint']}' (each kind of argument is a branch to check)")
+    calls = [i + offset for i, line in enumerate(body.splitlines(), 1) if re.match(r"^\s*/" + re.escape(name) + r"\b", line)]
+    if len(calls) > 1:
+        out.append(f"{rel(root, p)}: {len(calls)} example invocations at lines {', '.join(map(str, calls[:6]))} (each different use is a branch to check)")
+    return out
+
+
 def check_main_file_lean(root, inv, rep):
     """Every reference file must be reachable from its SKILL.md."""
     if not inv["skills"]:
@@ -1400,11 +1416,12 @@ def check_main_file_lean(root, inv, rep):
         bare = [f"{rel(root, p)}: no reference files, so all {len(frontmatter(read(p))[1].splitlines())} body lines load on every use"
                 for p in inv["skills"] if not [q for q in walk_md(p.parent) if q != p and q.name != "README.md"
                                                and not {"evaluations", "assets"} & set(q.relative_to(p.parent).parts[:-1])]]
+        hints = [h for p in inv["skills"] for h in anatomy_hints(root, p)]
         if bare:
-            rep.add("main-file-lean", "MANUAL", f"{len(bare)} skill(s) keep everything in SKILL.md. A reader checks each for material only one branch needs, examples or setup text meant for people, and says so in the report either way.",
-                    CRAFT_FIX, evidence=bare[:10])
+            rep.add("main-file-lean", "MANUAL", f"{len(bare)} skill(s) keep everything in SKILL.md. A reader lists the branches, checks each has a step, and places each piece of reference by the branches that use it.",
+                    CRAFT_FIX, evidence=(bare + hints)[:12])
         else:
-            rep.add("main-file-lean", "MANUAL", "Every reference file is named in SKILL.md; whether one-branch material sits inline needs a reader.", CRAFT_FIX)
+            rep.add("main-file-lean", "MANUAL", "Every reference file is named in SKILL.md. A reader lists the branches, checks each has a step, and places each piece of reference by the branches that use it.", CRAFT_FIX, evidence=hints[:12])
 
 
 STEP_HEAD_RE = re.compile(r"^#{2,4}\s+(Step\b|\d+[.)])")

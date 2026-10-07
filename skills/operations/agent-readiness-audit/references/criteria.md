@@ -171,7 +171,9 @@ A repository may add its own rules on top (a readme per skill, a manifest entry,
 
 **Pass.** An `evaluations/` (or `evals/`) folder with at least 3 proof cases per skill or product the agent ships, run automatically (CI or a pre-merge command in the pull-request template). A dry-run flag for every step that writes. Before merge, each case has been run 3 times and passed all 3; the report counts cases that passed all three, not once.
 
-**Fail.** No cases, cases for one product out of many, cases nothing runs, or expected notes in prose the runner skips.
+A model-invoked skill also has one case where a realistic prompt starts it and one where a near prompt must not.
+
+**Fail.** No cases, cases for one product out of many, cases nothing runs, expected notes in prose the runner skips, or a model-invoked skill with no case that checks it starts.
 
 **Blocks at.** Merge. (Unit tests for the code are welcome and count for nothing here; this criterion is about Claude's output.)
 
@@ -221,6 +223,8 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 - A **leading word** is a short, well-known word repeated so that it anchors one behaviour (for example "evidence").
 - A **key behaviour** is one a step's "Done when" line depends on.
 - A **no-op** is a sentence whose deletion would not change what Claude does.
+- A **branch** is one way the skill gets used (a different argument, request or situation). The description, the argument hint and the examples show them.
+- **Legwork** is a step Claude tends to rush toward the goal (asking before planning, checking every category before saying "nothing new").
 
 ### Started the right way: by a person or by Claude
 
@@ -238,19 +242,19 @@ How every in-scope skill, command, subagent and CLAUDE.md is written for Claude,
 
 ### The main file holds only what every use needs
 
-**Pass.** Steps, and the reference every branch needs, stay in SKILL.md (or CLAUDE.md). Reference only some branches need sits in its own file, one level deep, behind a pointer line that gives the condition for reading it ("read X before step N"). Each concept's definition, rules and caveats sit together under one heading.
+**Pass.** The report lists the skill's branches. Steps, and the reference every branch needs, stay in SKILL.md (or CLAUDE.md). Reference only some branches need sits in its own file, one level deep, behind a pointer line that gives the condition for reading it ("read X before step N"). Each concept's definition, rules and caveats sit together under one heading. Every branch has a step that handles it.
 
 With no reference files, the report says so and states that everything in SKILL.md serves every use.
 
-**Fail.** A reference file the main file never names, so Claude never reaches it. A pointer with no condition. A reference file that points to another reference file. Material only one branch needs written inline in the main file. Install text, history or a file listing in the file Claude loads.
+**Fail.** A branch the steps never handle (an example shows a use no step covers). One concept written in two places (a category list and a file list that map one to one). Reference a step needs that is defined nowhere (the format of the entry the skill writes). A reference file the main file never names, so Claude never reaches it. A pointer with no condition. A reference file that points to another reference file. Material only one branch needs written inline in the main file. Install text, history or a file listing in the file Claude loads.
 
 **Blocks at.** Share.
 
 ### Each step says when it is done
 
-**Pass.** A skill that does a job has its steps as headings (`## Step N: <verb> <object>`), each written as an instruction to Claude (read, compare, propose, write) that names its input, and each ending on a "Done when" line Claude can check, demanding where thoroughness matters ("every criterion judged", not "review the files"). A reference-only skill (rules or patterns Claude consults) has no steps and passes on its structure alone. Key behaviours carry a leading word. Steering states the target behaviour. Prohibitions appear only as hard guardrails in the one short Never-do list, each paired with what to do instead.
+**Pass.** A skill that does a job has its steps as headings (`## Step N: <verb> <object>`), each written as an instruction to Claude (read, compare, propose, write) that names its input, and each ending on a "Done when" line Claude can check, demanding where thoroughness matters ("every criterion judged", not "review the files"). A reference-only skill (rules or patterns Claude consults) has no steps and passes on its structure alone. Key behaviours carry a leading word, defined once (the report names the word, or proposes one when the skill's central word is never defined). Legwork has a forced check in its step ("list a candidate or 'none' for every category") or, when it is large, its own skill. Steering states the target behaviour. Prohibitions appear only as hard guardrails in the one short Never-do list, each paired with what to do instead.
 
-**Fail.** A step with no checkable end, which invites Claude to stop early. A procedure written as a numbered list under a heading such as "What it does": the items describe ("Reviews the session") instead of instruct, and no item can carry a "Done when" line. A step that depends on an input no earlier step reads (a "no duplicates" rule with no step that reads the existing file). A key behaviour steered only by a "never" or "do not" line outside the Never-do list, which puts the unwanted behaviour into Claude's attention.
+**Fail.** A step with no checkable end, which invites Claude to stop early. Legwork with no forced check. A procedure written as a numbered list under a heading such as "What it does": the items describe ("Reviews the session") instead of instruct, and no item can carry a "Done when" line. A step that depends on an input no earlier step reads (a "no duplicates" rule with no step that reads the existing file). A key behaviour steered only by a "never" or "do not" line outside the Never-do list, which puts the unwanted behaviour into Claude's attention.
 
 **Blocks at.** Share.
 
@@ -258,7 +262,9 @@ With no reference files, the report says so and states that everything in SKILL.
 
 **Pass.** One meaning lives in one place across SKILL.md, its references, CLAUDE.md, commands and subagents. No dated history, superseded notes, stale names, or time-sensitive facts (a date, price or version that will go stale). No no-ops. No copy of the environment (a config file, a directory listing, a script's help text) unless looking it up is expensive.
 
-**Fail.** Any of the above, named by file and line. When it is unclear whether a sentence is a no-op, the finding says so and the fix is for the skill's owner to test the skill without it; the auditor does not run it.
+The report gives each skill's size (words and lines) and names each no-op by the deletion test: the line, and what Claude would do differently without it ("nothing").
+
+**Fail.** Any of the above, named by file and line. When it is unclear whether a sentence is a no-op, the finding says so and its removal is a behaviour fix for the owner to approve; the auditor does not run it.
 
 **Blocks at.** Share.
 

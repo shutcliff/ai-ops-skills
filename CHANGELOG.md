@@ -9,6 +9,8 @@
   - New script checks: text above the H1 title or a second H1, steps written as a numbered list instead of step headings, Never-do and Stop-and-ask lists under 3 lines, "Use at / after / before" trigger wording on a user-invoked skill, and an explicit note when a skill has no reference files.
   - The report lists failures that block merge even at the share gate.
   - New proof case `legacy-layout`; good fixtures brought up to the standard.
+  - The fix plan splits structure changes (one "Tidy the structure" step, no change in what the skill does) from behaviour changes (each with an "After this" sentence and a test). A "For the fixer" section at the end of the report holds the skill's anatomy: branches, steps and reference, leading word, legwork, size and no-ops.
+  - Criteria: every branch needs a step, legwork needs a forced check, the leading word is defined once, size and no-ops are reported, and a model-invoked skill needs a case that checks it starts.
 - Promotion gate in `CLAUDE.md` is now `merge`.
 
 ## 0.2.0 (unreleased)

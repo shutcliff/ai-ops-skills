@@ -16,9 +16,10 @@ Replace every `<...>`. Keep the order: the reader decides in five lines whether 
 
 ## Fix plan
 
-<The order to work in. One step per change, and each step closes every failure that change fixes. Or "Nothing blocks this gate.">
+<The order to work in. Or "Nothing blocks this gate.">
 
-1. **<Verb and object, in which file>** (closes: <criterion names>). <What to write or delete, with `file:line`.> <"This closes the risk below." on the step that fixes the pre-mortem.>
+1. **Tidy the structure** (closes: <criterion names>). <N> changes; the skill does the same thing afterwards. The list is under "For the fixer".
+2. **<Behaviour change, in plain words>** (closes: <criterion names>). After this: <one sentence a person can check, "when X, the skill does Y">. <"This closes the risk below." on the step that fixes the pre-mortem.>
 
 After the plan: <N> of <M> failures at this gate closed<; what is left, and why it waits>. <At share: what merge still needs, in one line.>
 
@@ -62,6 +63,21 @@ After the plan: <N> of <M> failures at this gate closed<; what is left, and why 
 ### <Criterion name><, skill name when several skills are in scope>
 Found: <file:line, quoted if short>. Why it matters here: <this agent, not a principle>. Fix: <in which file>.
 
+## For the fixer
+
+<One block per skill in scope. Written for the agent-readiness-fix skill and for a curious reader; the chat never shows it.>
+
+### <skill name>
+
+- **Trigger:** <person or Claude, and why that fits>.
+- **Branches:** <each use, with its evidence `file:line`, and the step that handles it or "no step">.
+- **Steps and reference:** <each piece of reference, the branches that use it, and its place: stays in SKILL.md, or moves to `references/<name>.md` behind the pointer line "<exact line>">.
+- **Leading word:** <the word and its one definition, or the one to adopt>.
+- **Legwork:** <the step Claude will rush, and its forced check, or "none">.
+- **Size:** <words> words, <lines> lines. No-ops: <`file:line` and what changes without it, or "none">.
+- **Structure changes:** <numbered; each moves text, changes the layout, or merges two copies of one instruction that survives in one place, with `file:line`>.
+- **Behaviour changes:** <numbered, matching the fix plan; each with the text to write, the "After this" sentence, and the test: an input on fake data and what the skill must do>.
+
 ## Checks to add to the probe
 
 <Per fact on the probe branch of the three-way rule in `criteria.md`, else delete:> <live fact> feeds <criterion>: add the check <name>, by <role>.
@@ -69,12 +85,13 @@ Found: <file:line, quoted if short>. Why it matters here: <this agent, not a pri
 
 Rules:
 
-- **Fix plan.** Group the failures by the change that fixes them: one step per change, never one step per criterion. Order the steps:
-  1. A rewrite of the layout or the steps, when Format or Skill craft fails: every other fix lands inside it, so doing it later means writing those fixes twice.
-  2. The step that closes the pre-mortem risk, then any failure of Writes are protected, Works on another laptop, or Never-do list and stop-and-ask list exist: safety outranks clarity.
-  3. One-line fixes (a contradiction, a trigger phrase).
+- **Structure or behaviour.** A **structure change** only moves text, changes the layout (title, headings, sections), moves text for people to a readme, or merges two copies of one instruction so that it survives in one place. Everything else is a **behaviour change**: a new or changed rule, step, stop-and-ask line, definition or value, a branch the steps now handle, and the removal of a no-op. When unsure, it is a behaviour change.
+- **Fix plan.** All structure changes are one step, "Tidy the structure", always first: every other fix lands inside it. Then one step per behaviour change, never one per criterion, in this order:
+  1. The change that closes the pre-mortem risk, then any failure of Writes are protected, Works on another laptop, or Never-do list and stop-and-ask list exist: safety outranks clarity.
+  2. Changes for branches the steps do not handle, and for legwork.
+  3. One-line changes (a contradiction, a trigger phrase, a definition).
   4. Setup and documents for people (onboarding, readme, symptom table).
-  At most five steps; a failure that fits none goes in Details. Each step says what to write, not only what is missing. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
+  At most five behaviour steps; a failure that fits none goes in Details. Each behaviour step ends on its "After this" sentence, which the person approves and the fixer tests. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
 - **Evidence.** One or two `file:line` per row, the rest in Details; a probe-settled criterion cites the probe line and date.
 - **Gate names.** The filename and the verdict line use the gate name (share, merge). At merge the pre-mortem has an owner and a date.
 - **Plain English.** No em dashes (in a quote, use a colon). A technical term gets its meaning in parentheses once. An adjective such as "fragile" needs a quoted line or is cut. One sentence of finding, one of fix naming the file and what to add or delete.
