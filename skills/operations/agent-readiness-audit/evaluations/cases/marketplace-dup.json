@@ -1,7 +1,8 @@
 {
  "case": "marketplace-dup",
  "fixture": "fixtures/marketplace-dup",
- "gate": "pr",
+ "gate": "merge",
+ "ci": true,
  "mode": "before-run",
  "why": "A marketplace listing two local plugins that both ship a skill with the same name. Both plugins must be read, and the two copies must fail the files-agree check.",
  "expected_exit": 1

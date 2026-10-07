@@ -1,11 +1,11 @@
 ---
 name: agent-readiness-audit
-description: Audits a Claude Code agent, skill, plugin or subagent for readiness and writes a plain-English pass or fail report that names the file and line to fix. Use when someone asks whether an agent, skill or plugin is ready for others (handover or release), or when a pull request changes CLAUDE.md, .claude/, a SKILL.md or prompt files.
+description: Audits a Claude Code agent, skill, plugin or subagent for readiness and writes a plain-English pass or fail report that names the file and line to fix. Use when someone asks whether an agent, skill or plugin is ready to share with a teammate or to merge into a repository, or when a pull request changes CLAUDE.md, .claude/, a SKILL.md or prompt files.
 ---
 
 # Agent readiness audit
 
-**Goal.** Tell the person who will run, merge or release an agent whether it is ready at a named gate, in one report where every failure names the file, the line and the fix. The reader is often not an engineer.
+**Goal.** Tell the person who will test or merge an agent whether it is ready at a named gate, in one report where every failure names the file, the line and the fix. The reader is often not an engineer.
 
 **Architecture.**
 - This file: the steps, in order.
@@ -41,7 +41,7 @@ description: Audits a Claude Code agent, skill, plugin or subagent for readiness
 ## Step 1: confirm the target and the gate
 
 - **Target.** A repository's root; for one skill in a skills repository, that skill's folder; a plugin root covers everything the plugin ships; a marketplace root covers every local plugin it lists. To judge what ships, audit a fresh clone.
-- **Gate.** `handover`, `pr` or `release`, as `references/criteria.md` defines them. When the person named none, ask one question with those three options, `handover` first and recommended. With no person present (for example in CI), use `handover`.
+- **Gate.** `share` (a teammate gets it to test) or `merge` (it goes into a repository anyone can install from), as `references/criteria.md` defines them. When the person named none, ask one question with those two options, `share` first and recommended. With no person present (for example in CI), use `merge` with `--ci`.
 - **Report path.** Where the person says (when they name a folder, the file name below inside it); else `docs/readiness/YYYY-MM-DD-<gate>-readiness-report.md` inside the audited folder; for a clone, a zip or a .skill file, the same path under the current folder.
 
 **Done when:** you can name the target, the gate, and the report path.
@@ -54,13 +54,15 @@ From the folder the person is working in (with no person present, the current fo
 python3 <this skill's folder>/scripts/audit.py <target> --gate <gate> --json
 ```
 
+In CI, add `--ci`: the merge criteria are judged from the files and the run evidence is left to the reviewer.
+
 Add `--state-dir <path>` when the files name a state directory the script did not find. The script infers the trigger and what the agent touches from the files; it returns one finding per criterion plus the run-evidence mode.
 
 - **FAIL** stays a failure unless you quote the file and line that satisfies the criterion.
 - **PASS** is a hint: the script matches words, you read whether they define the thing. Purpose, Claude's role and "Bad input has a rule" are the likeliest to be wrong.
 - **WARN** and **MANUAL** are yours to decide.
 
-**No terminal** (the desktop or web app): judge every criterion by reading, and use the "did not run" wording of the template's Script layer line. The verdict is NOT READY at every gate (`references/criteria.md`, "The three gates"), and running the script is the first fix.
+**No terminal** (the desktop or web app): judge every criterion by reading, and use the "did not run" wording of the template's Script layer line. The verdict is NOT READY at both gates (`references/criteria.md`, "The two gates"), and running the script is the first fix.
 
 **Done when:** you hold a script finding for every criterion, or the no-terminal rule applies, and you know the run-evidence mode.
 
@@ -73,14 +75,15 @@ Scope follows the tiers in `references/criteria.md`. Hunt for what the script ca
 1. **Instructions that disagree.** The same field, path, threshold or rule stated two ways. Quote both lines.
 2. **Claims the code does not support.** When a document says a check "runs before any write", open the function; a check that cannot fail fails the criterion that relied on it.
 3. **Decisions left to Claude that belong to code or a person.** Money, dates, thresholds, colour codes, cell mappings, "does this look right".
-4. **Where a first-time operator gets stuck.** Read the setup document with none of the builder's context: each step assuming a credential, machine, tool or word the reader lacks is a finding under "Built for more than one person to run".
-5. **Across skills.** Overlaps with other skills in the repository or marketplace, and dependencies on a skill or file shipped elsewhere.
+4. **Steps that describe instead of instruct.** For each skill that does a job: are the steps headings, each an instruction that names its input? Does every rule have a step that makes it possible (a "no duplicates" rule needs a step that reads the existing file first)? Is there anything above the H1 title, or a second H1?
+5. **Where a first-time operator gets stuck.** Read the setup document with none of the builder's context: each step assuming a credential, machine, tool or word the reader lacks is a finding under "Built for more than one person to run".
+6. **Across skills.** Overlaps with other skills in the repository or marketplace, and dependencies on a skill or file shipped elsewhere.
 
 **Done when:** every in-scope file is read or searched, and each hunt has findings with evidence, or "none found".
 
 ## Step 4: judge every criterion
 
-Walk `references/criteria.md` top to bottom. Give every criterion exactly one verdict from its Verdicts paragraph, with evidence: the line that satisfies it, or the gap's line plus the fix. Judge Skill craft once per in-scope file.
+Walk `references/criteria.md` top to bottom. Give every criterion exactly one verdict from its Verdicts paragraph, with evidence: the line that satisfies it, or the gap's line plus the fix. Judge Format and Skill craft once per in-scope file, at both gates: structure is never skipped.
 
 Then write the one-line pre-mortem: the likeliest reason this agent misbehaves in someone else's hands next month, taken from a finding already listed.
 

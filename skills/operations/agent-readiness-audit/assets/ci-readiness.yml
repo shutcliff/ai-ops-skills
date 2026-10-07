@@ -4,13 +4,12 @@
 #
 # The job checks out the public repository that holds the audit skill into
 # tooling/, then runs its script on this repository. No token is needed.
-# The job fails when a criterion that blocks the pull-request gate fails, and
+# The job fails when a criterion that blocks the merge gate fails, and
 # uploads the plain-English report as an artifact either way.
 #
-# The pull-request gate runs in before-run mode: CI has no run data, so the
-# criteria that need a real run report "no evidence yet" instead of failing.
-# The handover and release gates are run by a person on the machine that runs
-# the agent, where the run log and the probe result exist.
+# CI has no run data, so --ci judges every merge criterion from the files and
+# leaves the run evidence to the reviewer, who confirms the teammate's test
+# run before merging.
 
 name: Agent readiness
 
@@ -44,9 +43,9 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run readiness audit (pull request gate)
+      - name: Run readiness audit (merge gate, files only)
         run: |
-          python3 "tooling/${AUDIT_SKILL}/scripts/audit.py" . --gate pr --mode before-run --md readiness-report.md
+          python3 "tooling/${AUDIT_SKILL}/scripts/audit.py" . --gate merge --ci --mode before-run --md readiness-report.md
 
       - name: Upload the report
         if: always()

@@ -15,15 +15,27 @@ Claude never does: count tickets, classify severity, or decide which tickets mat
 - If the customer slug is missing or not in `config/customers.json`: stop and ask the user to pick from the list the script prints.
 - If the week is missing or malformed: show the expected format `YYYY-Www` and re-ask.
 
-## Steps
+## Step 1: build the summary
 
-1. Run `python3 scripts/build_digest.py --customer <slug> --week <week>`. It prints one JSON object.
-2. If the JSON has `"status": "jira_unavailable"`: the ticket system is down or the token is rejected. Tell the user, do not write a file, and stop.
-3. If the JSON has `"ticket_count": 0`: write the digest with the sentence "No tickets this week" and say so in chat. An empty week and a broken query are distinguished by step 2, so a zero here is real.
-4. If the JSON has `"stale": true`: the ticket system's last sync is older than 24 hours. Write the digest with a warning line at the top and tell the user the sync time.
-5. Fill `assets/digest-template.md` with the JSON fields only. Do not add tickets or numbers that are not in the JSON.
-6. Before writing `digests/<slug>-<week>.md`, show the user the ticket count and the three headline tickets and wait for a yes. A no ends the run without writing.
-7. Print `DIGEST WRITTEN <slug> <week> (<n> tickets)`.
+Run `python3 scripts/build_digest.py --customer <slug> --week <week>`. It prints one JSON object.
+
+- `"status": "jira_unavailable"`: the ticket system is down or the token is rejected. Tell the user, do not write a file, and stop.
+- `"ticket_count": 0`: the digest gets the sentence "No tickets this week", and the chat says so. An empty week and a broken query are told apart by the status line above, so a zero here is real.
+- `"stale": true`: the ticket system's last sync is older than 24 hours. The digest gets a warning line at the top, and the chat gives the sync time.
+
+Done when you hold the JSON object and know which of the three cases applies, or the run has stopped.
+
+## Step 2: write the digest
+
+Fill `assets/digest-template.md` with the JSON fields only. Do not add tickets or numbers that are not in the JSON. Before writing `digests/<slug>-<week>.md`, show the user the ticket count and the three headline tickets and wait for a yes. A no ends the run without writing.
+
+Done when the file exists and its ticket count equals the JSON's, or the user said no.
+
+## Step 3: report
+
+Print `DIGEST WRITTEN <slug> <week> (<n> tickets)`.
+
+Done when that line is printed.
 
 ## Never do
 

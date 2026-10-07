@@ -63,7 +63,7 @@ LAYER_FILES = [
 CRITERIA_FILE = SKILL / "references" / "criteria.md"
 REPORT_TEMPLATE = SKILL / "references" / "report-template.md"
 
-GATE_WORDS = {"handover": "handover", "pull request": "pr", "release": "release"}
+GATE_WORDS = {"share": "share", "merge": "merge"}
 
 NUMBER_WORDS = ("one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
                 "sixteen|seventeen|eighteen|nineteen|twenty|thirty")
@@ -86,7 +86,7 @@ def criteria_gates(text: str) -> dict:
         end = heads[i + 1].start() if i + 1 < len(heads) else len(text)
         nxt = re.search(r"^#{1,2}\s", text[m.end():end], re.M)  # a block heading ends the section
         section = text[m.end():m.end() + nxt.start()] if nxt else text[m.end():end]
-        g = re.search(r"\*\*Blocks at\.\*\*\s*(Handover|Pull request|Release)", section)
+        g = re.search(r"\*\*Blocks at\.\*\*\s*(Share|Merge)", section)
         out[m.group(1).strip()] = GATE_WORDS[g.group(1).lower()] if g else None
     return out
 
@@ -157,7 +157,7 @@ def main() -> int:
         if name not in gates_in_criteria:
             problems.append(f"criteria.md has no '### {name}' section")
         elif gates_in_criteria[name] is None:
-            problems.append(f"criteria.md: '{name}' has no '**Blocks at.**' line naming Handover, Pull request or Release")
+            problems.append(f"criteria.md: '{name}' has no '**Blocks at.**' line naming Share or Merge")
         elif gates_in_criteria[name] != code_gate[name]:
             problems.append(f"criteria.md: '{name}' says it blocks at {gates_in_criteria[name]}, the code says {code_gate[name]}")
     rows = template_rows(read(REPORT_TEMPLATE))

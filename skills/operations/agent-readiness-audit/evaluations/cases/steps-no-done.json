@@ -1,7 +1,8 @@
 {
  "case": "steps-no-done",
  "fixture": "fixtures/steps-no-done",
- "gate": "pr",
+ "gate": "merge",
+ "ci": true,
  "mode": "before-run",
  "expected_exit": 1,
  "why": "A skill with three steps where only the first ends on a 'Done when' line. The two open steps must fail 'Each step says when it is done', each named by its line."

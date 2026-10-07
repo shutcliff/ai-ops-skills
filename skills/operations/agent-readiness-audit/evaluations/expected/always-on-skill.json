@@ -12,6 +12,7 @@
  "writes-protected": "N/A",
  "another-laptop": "PASS",
  "proof-cases": "FAIL",
+ "teammate-can-install": "FAIL",
  "more-than-one-person": "FAIL",
  "claude-format": "PASS",
  "trigger-on-purpose": "FAIL",

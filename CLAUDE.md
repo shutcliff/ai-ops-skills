@@ -16,7 +16,7 @@ Skills live in bucket folders under `skills/`:
 
 1. **Promoted means listed in three places:** the `skills` array in `.claude-plugin/plugin.json`, the top-level `README.md`, and the bucket's `README.md`. Anything outside the promoted buckets appears in none of them. Run `claude plugin validate .` after touching a manifest. Its one warning, that this CLAUDE.md is not shipped to plugin users, is expected: this file is for people editing the repo.
 2. **Promotion gate.** An item leaves `in-progress/` only when it passes:
-    - the readiness audit (`agent-readiness-audit`, gate `handover`), whose Format and Skill craft blocks apply Anthropic's skill authoring best practices (platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+    - the readiness audit (`agent-readiness-audit`, gate `merge`; `share` first when a teammate tests it), whose Format and Skill craft blocks apply Anthropic's skill authoring best practices (platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
     - at least 3 proof cases in the skill's `evaluations/`
     - the repo checks (`scripts/check-repo.sh`), which lint every promoted skill
     - generic content: no names of people, employers or clients, no personal paths. "The user", never the owner's name.

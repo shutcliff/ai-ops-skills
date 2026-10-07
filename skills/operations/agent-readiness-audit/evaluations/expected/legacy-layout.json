@@ -1,7 +1,7 @@
 {
  "_mode": "before-run",
  "purpose-clear": "FAIL",
- "done-defined": "FAIL",
+ "done-defined": "PASS",
  "who-decides": "FAIL",
  "never-do-list": "FAIL",
  "bad-input-rule": "FAIL",
@@ -14,15 +14,26 @@
  "proof-cases": "FAIL",
  "teammate-can-install": "FAIL",
  "more-than-one-person": "FAIL",
- "claude-format": "PASS",
- "trigger-on-purpose": "MANUAL",
+ "claude-format": "FAIL",
+ "trigger-on-purpose": "WARN",
  "main-file-lean": "MANUAL",
- "steps-say-done": "MANUAL",
+ "steps-say-done": "FAIL",
  "nothing-twice": "MANUAL",
  "behaviour-switch": "N/A",
  "replay-safely": "N/A",
  "run-trace": "N/A",
  "_must_mention": {
-  "claude-format": ["1 skill"]
+  "claude-format": [
+   "before the H1 title"
+  ],
+  "steps-say-done": [
+   "numbered items under"
+  ],
+  "never-do-list": [
+   "stop-and-ask list has 2 line(s)"
+  ],
+  "main-file-lean": [
+   "no reference files"
+  ]
  }
 }

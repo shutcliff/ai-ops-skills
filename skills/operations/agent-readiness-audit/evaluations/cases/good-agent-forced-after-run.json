@@ -1,8 +1,8 @@
 {
  "case": "good-agent-forced-after-run",
  "fixture": "fixtures/good-agent",
- "gate": "release",
+ "gate": "merge",
  "mode": "after-run",
  "expected_exit": 1,
- "why": "The good agent at the release gate with after-run asked for and no state directory. The run trace must fail with a plain message instead of crashing, and the audit must exit 1."
+ "why": "The good agent at the merge gate with after-run asked for and no state directory. The run trace must fail with a plain message instead of crashing, and the audit must exit 1."
 }

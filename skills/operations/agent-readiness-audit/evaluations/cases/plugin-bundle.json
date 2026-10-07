@@ -1,7 +1,7 @@
 {
  "case": "plugin-bundle",
  "fixture": "fixtures/plugin-bundle",
- "gate": "pr",
+ "gate": "share",
  "mode": "before-run",
  "why": "A plugin with two skills, a check command and an onboarding README. Paths written from the plugin root, a /plugin:command name and a settings file under the home folder must all resolve, and Never-do lines and a drafted email must not count as writes or prerequisites.",
  "expected_exit": 0
