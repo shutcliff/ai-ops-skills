@@ -5,3 +5,9 @@ __pycache__/
 # in-progress skills stay local; only the folder's README is published
 skills/in-progress/*
 !skills/in-progress/README.md
+
+# readiness reports are local working files, never published;
+# the audit and fixer test fixtures under evaluations/ stay tracked
+/docs/readiness/
+skills/**/docs/readiness/
+!skills/**/evaluations/**/docs/readiness/
