@@ -14,7 +14,7 @@ description: Audits a Claude Code agent, skill, plugin or subagent for readiness
 - `references/report-template.md`: the report shape and the fix-plan rule, read at Step 4.
 - `references/process-agent-patterns.md`: read only when Step 4 judges an Operability criterion the script did not mark N/A.
 
-**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, the fix plan in plain words (the structure step as one line, then each behaviour step with its "After this" sentence, and the count left after it), and the report path. The "For the fixer" section stays in the report, out of the chat. The person checks that the first cited file:line shows the problem named.
+**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, the fix plan in plain words (the structure step as one line, then each behaviour step with its "After this" sentence, and the count left after it), the report path, and, when a person is present and the verdict is NOT READY, the question "Apply the plan now?". The "For the fixer" section stays in the report, out of the chat. The person checks that the first cited file:line shows the problem named.
 
 ## Never do
 
@@ -94,5 +94,7 @@ Then label every change structure or behaviour, and build the fix plan and the "
 ## Step 5: write the report and tell the person
 
 Fill `references/report-template.md` and save it at the report path from Step 1 (create the folder). In chat, give only what "Done looks like" lists.
+
+When a person is present and the verdict is NOT READY, end on one question: "Apply the plan now?". A yes starts the `agent-readiness-fix` skill with the report path; this skill still edits nothing. A no, or no person present (for example in CI), ends the run.
 
 **Done when:** everything "Done looks like" lists is true.
