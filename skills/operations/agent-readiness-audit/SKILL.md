@@ -11,10 +11,10 @@ description: Audits a Claude Code agent, skill, plugin or subagent for readiness
 - This file: the steps, in order.
 - `references/criteria.md`: the standard (criteria, gates, verdicts, and **evidence**, on which everything rests). Read it in full before Step 4.
 - `scripts/audit.py`: the structural checks. Its counts and statuses are facts; Claude never recomputes them.
-- `references/report-template.md`: the report shape, read at Step 5.
+- `references/report-template.md`: the report shape and the fix-plan rule, read at Step 4.
 - `references/process-agent-patterns.md`: read only when Step 4 judges an Operability criterion the script did not mark N/A.
 
-**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, up to three fixes with their file names, and the report path. The person checks that the first cited file:line shows the problem named.
+**Done looks like:** the report file exists, every failure in it carries evidence, and the chat shows the verdict line, the fix plan (up to five steps, each naming the criteria it closes, and the count left after it), and the report path. The person checks that the first cited file:line shows the problem named.
 
 ## Never do
 
@@ -87,7 +87,9 @@ Walk `references/criteria.md` top to bottom. Give every criterion exactly one ve
 
 Then write the one-line pre-mortem: the likeliest reason this agent misbehaves in someone else's hands next month, taken from a finding already listed.
 
-**Done when:** every criterion has exactly one verdict with evidence, and the pre-mortem line is written.
+Then build the fix plan by the "Fix plan" rule in `references/report-template.md`: group the failures by the change that fixes them, order the changes, and count what is left.
+
+**Done when:** every criterion has exactly one verdict with evidence, the pre-mortem line is written, and every failure at the gate sits in one fix-plan step or in Details.
 
 ## Step 5: write the report and tell the person
 

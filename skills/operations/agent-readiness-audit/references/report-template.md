@@ -14,11 +14,13 @@ Replace every `<...>`. Keep the order: the reader decides in five lines whether 
 
 **Scope:** <judged on every criterion; unreferenced skills, format only; skipped.>
 
-## Fix these first
+## Fix plan
 
-1. **<Criterion name>.** <What is wrong, `file:line`.> Fix: <what to add or delete, in which file.>
+<The order to work in. One step per change, and each step closes every failure that change fixes. Or "Nothing blocks this gate.">
 
-<Up to three, or "Nothing blocks this gate.">
+1. **<Verb and object, in which file>** (closes: <criterion names>). <What to write or delete, with `file:line`.> <"This closes the risk below." on the step that fixes the pre-mortem.>
+
+After the plan: <N> of <M> failures at this gate closed<; what is left, and why it waits>. <At share: what merge still needs, in one line.>
 
 ## Also fails at merge
 
@@ -67,7 +69,12 @@ Found: <file:line, quoted if short>. Why it matters here: <this agent, not a pri
 
 Rules:
 
-- **Ranking.** "Fix these first" ranks by harm in someone else's hands; safety outranks clarity. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
+- **Fix plan.** Group the failures by the change that fixes them: one step per change, never one step per criterion. Order the steps:
+  1. A rewrite of the layout or the steps, when Format or Skill craft fails: every other fix lands inside it, so doing it later means writing those fixes twice.
+  2. The step that closes the pre-mortem risk, then any failure of Writes are protected, Works on another laptop, or Never-do list and stop-and-ask list exist: safety outranks clarity.
+  3. One-line fixes (a contradiction, a trigger phrase).
+  4. Setup and documents for people (onboarding, readme, symptom table).
+  At most five steps; a failure that fits none goes in Details. Each step says what to write, not only what is missing. On a tie, prefer the file a newcomer reads first: CLAUDE.md, the readme, the main skill.
 - **Evidence.** One or two `file:line` per row, the rest in Details; a probe-settled criterion cites the probe line and date.
 - **Gate names.** The filename and the verdict line use the gate name (share, merge). At merge the pre-mortem has an owner and a date.
 - **Plain English.** No em dashes (in a quote, use a colon). A technical term gets its meaning in parentheses once. An adjective such as "fragile" needs a quoted line or is cut. One sentence of finding, one of fix naming the file and what to add or delete.
