@@ -14,7 +14,7 @@ To get new versions, run `/plugin marketplace update ai-ops-skills`, or turn on 
 ## Copied into your project
 
 1. Download the repo (green "Code" button on GitHub, then "Download ZIP").
-2. Copy the skill folder you want from `skills/<bucket>/` into your project's `.claude/skills/`.
+2. Copy the skill folder you want from `skills/<bucket>/` into your project's `.claude/skills` folder.
 3. Restart Claude Code. The copy is yours: it will not update on its own.
 
 ## Check it worked
